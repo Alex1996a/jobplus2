@@ -1,9 +1,8 @@
 from flask import Blueprint, render_template, request, current_app, \
     redirect, url_for, flash
 
-#from jobplus.decorators import admin_required
-from jobplus.models import Job
-#from jobplus.forms import 
+from flask_login import login_required, current_user
+from jobplus.models import Job, Delivery, db
 
 
 job = Blueprint('job',__name__, url_prefix='/job')
@@ -32,26 +31,26 @@ def detail(job_id):
 
     return render_template('job/detail.html', job=job, active='')
 
-@job.route('/<int:job_id>/apply')
-@login_required
-def apply(job_id)
-
-    job = Job.query.get_or_404(job_id)
-
-    if current_user.resume_user is None:
-        flash('please upload your file', 'warnning')
-    elif job.current_user_is_applied:
-        flash('you hav t applied this job', 'warnning')
-    else:
-        d = Delivery(
-                job_id=job.id, 
-                user_id=current_user.id, 
-                company_id = job.company.id
-                )
-        db.session.add(d)
-        db.session.commit()
-        flash('input successful', 'success')
-    return redirect(url_for('job.detail', job_id=job.id))
+#@job.route('/<int:job_id>/apply')
+#@login_required
+#def apply(job_id):
+#
+#    job = Job.query.get_or_404(job_id)
+#
+#    if current_user.resume_user is None:
+#        flash('please upload your file', 'warnning')
+#    elif job.current_user_is_applied:
+#        flash('you hav t applied this job', 'warnning')
+#    else:
+#        d = Delivery(
+#                job_id=job.id, 
+#                user_id=current_user.id, 
+#                company_id = job.company.id
+#                )
+#        db.session.add(d)
+#        db.session.commit()
+#        flash('input successful', 'success')
+#    return redirect(url_for('job.detail', job_id=job.id))
 
 @job.route('/<int:job_id>/disable')
 @login_required
